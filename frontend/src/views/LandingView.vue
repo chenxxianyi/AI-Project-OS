@@ -17,8 +17,8 @@ import AppButton from '@/components/ui/AppButton.vue'
         <router-link to="/dashboard">更新日志</router-link>
       </nav>
       <div class="flex gap-3.5">
-        <AppButton variant="ghost"><router-link to="/dashboard">登录</router-link></AppButton>
-        <AppButton variant="primary"><router-link to="/dashboard">开始使用</router-link></AppButton>
+        <AppButton variant="ghost"><router-link to="/login">登录</router-link></AppButton>
+        <AppButton variant="primary"><router-link to="/login">开始使用</router-link></AppButton>
       </div>
     </header>
 

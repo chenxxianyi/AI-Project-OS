@@ -1,11 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { useToast } from '@/composables/useToast'
+import { useProjectStore } from '@/stores/project'
+import { promptApi, type Prompt } from '@/api/prompt'
+import { generationApi } from '@/api/generation'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppCard from '@/components/ui/AppCard.vue'
 
 const toast = useToast()
+const route = useRoute()
+const projectStore = useProjectStore()
 const running = ref(false)
+const selectedPrompt = ref<Prompt | null>(null)
+const outputContent = ref('')
+const error = ref('')
+const projectId = ref('')
 
 const templates = [
   { icon: '▱', name: '通用', desc: '通用目的提示词', active: true },
@@ -17,52 +27,55 @@ const templates = [
   { icon: '⚙', name: '自定义', desc: '从零开始' },
 ]
 
-const promptContent = `# 角色
-你是一位资深软件工程师。
+const promptContent = ref(`# 角色\n你是一位资深软件工程师。\n\n## 上下文\n你正在开发 {{project_name}} 项目\n使用 {{tech_stack}}。\n\n## 任务\n{{task_description}}\n\n## 要求\n- 遵循最佳实践\n- 编写整洁、可维护的代码\n- 在必要时添加注释\n\n## 输出格式\n- 提供代码\n- 解释实现思路`)
 
-## 上下文
-你正在开发 {{project_name}} 项目
-使用 {{tech_stack}}。
+onMounted(async () => {
+  try {
+    error.value = ''
+    projectId.value = route.params.id as string
+    if (!projectId.value) {
+      error.value = '缺少项目 ID'
+      return
+    }
+    await projectStore.fetchProject(projectId.value)
+    const res = await promptApi.list(projectId.value)
+    const prompts = res.data.data
+    if (prompts.length > 0) {
+      selectedPrompt.value = prompts[0]
+      promptContent.value = prompts[0].content
+    }
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : '提示词加载失败'
+    error.value = message
+    toast.show(message)
+  }
+})
 
-## 任务
-{{task_description}}
-
-## 要求
-- 遵循最佳实践
-- 编写整洁、可维护的代码
-- 在必要时添加注释
-
-## 输出格式
-- 提供代码
-- 解释实现思路`
-
-const outputCode = `1  // authentication.js
-2  import jwt from 'jsonwebtoken';
-3  import { User } from './models/User.js';
-4
-5  export const authenticate = async (req, res, next) => {
-6    try {
-7      const token = req.headers.authorization
-8        ?.split(' ')[1];
-9
-10     if (!token) {
-11       return res.status(401).json({
-12         success: false,
-13         message: 'No token provided'
-14       });
-15     }`
-
-function runPrompt() {
+async function runPrompt() {
+  if (!projectId.value) {
+    toast.show('缺少项目 ID')
+    return
+  }
   running.value = true
-  setTimeout(() => {
-    running.value = false
+  try {
+    const res = await generationApi.generate({
+      project_id: projectId.value,
+      generation_type: 'prompt',
+      input_payload: promptContent.value,
+    })
+    outputContent.value = res.data.data.output_content
     toast.show('提示词运行完成')
-  }, 1500)
+  } catch (e: unknown) {
+    toast.show(e instanceof Error ? e.message : '运行失败')
+  } finally {
+    running.value = false
+  }
 }
 </script>
 
 <template>
   <div class="p-[32px_36px]">
+    <div v-if="error" class="mb-4 p-3 rounded-[10px] bg-red-50 border border-red-200 text-red-600 text-sm">{{ error }}</div>
     <div class="workspace-top flex items-center justify-between mb-6">
       <section class="headline">
         <h1 class="text-2xl font-bold">Prompt 工作室</h1>
@@ -100,9 +113,9 @@ function runPrompt() {
       <AppCard no-pad>
         <template #header>
           <div class="panel-head flex items-center justify-between px-5 py-4 border-b border-line">
-            <h3 class="font-bold text-sm">未命名提示词</h3>
+            <h3 class="font-bold text-sm">{{ selectedPrompt?.title || '未命名提示词' }}</h3>
             <div class="flex items-center gap-2">
-              <span class="text-xs text-[#21af7d]">✓ 已保存</span>
+              <span v-if="selectedPrompt" class="text-xs text-[#21af7d]">✓ 已保存</span>
               <AppButton variant="ghost" class="!min-h-[32px] !px-2.5">⋯</AppButton>
             </div>
           </div>
@@ -135,16 +148,17 @@ function runPrompt() {
         <div class="px-4 py-3 border-t border-line">
           <div class="flex items-center justify-between mb-2">
             <h3 class="font-bold text-sm">输出</h3>
-            <p class="text-xs text-muted">已生成 2,048 Token · 12秒 · GPT-4o · 今天 10:15</p>
+            <p v-if="outputContent" class="text-xs text-muted">已生成</p>
           </div>
         </div>
         <div class="output px-4 pb-3">
-          <pre class="font-mono text-xs leading-relaxed text-[#53617f] bg-[#f8fbff] p-3 rounded-[10px] overflow-auto max-h-[280px]">{{ outputCode }}</pre>
+          <pre v-if="outputContent" class="font-mono text-xs leading-relaxed text-[#53617f] bg-[#f8fbff] p-3 rounded-[10px] overflow-auto max-h-[280px]">{{ outputContent }}</pre>
+          <p v-else class="text-xs text-muted">点击"运行提示词"查看输出</p>
         </div>
         <div class="flex gap-3 px-4 pb-4">
           <AppButton @click="toast.show('已复制到剪贴板')">▣ 复制</AppButton>
           <AppButton>⇩ 导出⌄</AppButton>
-          <AppButton>⌫ 清空</AppButton>
+          <AppButton @click="outputContent = ''">⌫ 清空</AppButton>
         </div>
       </AppCard>
     </section>

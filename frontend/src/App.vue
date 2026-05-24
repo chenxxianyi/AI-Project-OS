@@ -4,11 +4,11 @@ import { useRoute } from 'vue-router'
 import AppShell from '@/components/layout/AppShell.vue'
 
 const route = useRoute()
-const isLanding = computed(() => route.name === 'landing')
+const isPublicLayout = computed(() => ['landing', 'login'].includes(String(route.name)))
 </script>
 
 <template>
-  <AppShell v-if="!isLanding">
+  <AppShell v-if="!isPublicLayout">
     <router-view />
   </AppShell>
   <router-view v-else />

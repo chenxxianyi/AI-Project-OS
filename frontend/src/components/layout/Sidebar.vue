@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAppStore } from '@/stores/app'
+import { useAuthStore } from '@/stores/auth'
 
 const route = useRoute()
 const router = useRouter()
 const store = useAppStore()
+const auth = useAuthStore()
 
 const navItems = [
   { icon: '⌂', label: '首页', name: 'dashboard' },
-  { icon: '▣', label: '项目', name: 'project-detail' },
+  { icon: '▣', label: '项目', name: 'projects' },
   { icon: '▤', label: '模板', name: 'dashboard' },
   { icon: '◇', label: '智能体', name: 'dashboard' },
   { sep: true },
@@ -24,11 +25,23 @@ function isActive(name: string) {
 }
 
 function navigate(name: string) {
-  if (name === 'project-detail') {
-    router.push({ name, params: { id: 'demo' } })
+  if (name === 'projects') {
+    router.push({ name: 'dashboard' })
+  } else if (['prompt-studio', 'rules-builder', 'project-brain'].includes(name)) {
+    const projectId = route.params.id
+    if (projectId) {
+      router.push({ name, params: { id: projectId } })
+    } else {
+      router.push({ name: 'dashboard' })
+    }
   } else {
     router.push({ name })
   }
+}
+
+function handleLogout() {
+  auth.logout()
+  router.push('/login')
 }
 </script>
 
@@ -63,12 +76,12 @@ function navigate(name: string) {
         ◎ 升级计划
       </button>
       <div class="flex items-center gap-3 px-2">
-        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#222d58] to-[#f3a071]" />
+        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#222d58] to-[#f3a071] grid place-items-center text-white text-xs font-bold">{{ (auth.username || '?')[0].toUpperCase() }}</div>
         <div class="flex-1 min-w-0">
-          <b class="block text-sm truncate">Alex Morgan</b>
-          <span class="text-xs text-muted truncate block">alex@morgan.dev</span>
+          <b class="block text-sm truncate">{{ auth.username || '未登录' }}</b>
+          <span class="text-xs text-muted truncate block">{{ auth.user?.email || '' }}</span>
         </div>
-        <span class="text-muted">⌄</span>
+        <span class="text-muted cursor-pointer hover:text-primary" @click="handleLogout" title="退出登录">⏻</span>
       </div>
     </div>
   </aside>

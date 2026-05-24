@@ -1,5 +1,10 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { useAppStore } from '@/stores/app'
+import { useAuthStore } from '@/stores/auth'
+import { useProjectStore } from '@/stores/project'
+import { dashboardApi } from '@/api/dashboard'
+import { generationApi, type AIGeneration } from '@/api/generation'
 import { useToast } from '@/composables/useToast'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppCard from '@/components/ui/AppCard.vue'
@@ -7,23 +12,13 @@ import AppChip from '@/components/ui/AppChip.vue'
 import AppModal from '@/components/ui/AppModal.vue'
 
 const store = useAppStore()
+const auth = useAuthStore()
+const projectStore = useProjectStore()
 const toast = useToast()
 
-const recentProjects = [
-  { icon: '⌁', name: 'AI SaaS Starter', desc: 'Next.js, Tailwind, Supabase', time: '2小时前更新' },
-  { icon: '◌', iconClass: 'purple', name: 'Marketing Agent', desc: 'LangChain, OpenAI, Pinecone', time: '5小时前更新' },
-  { icon: '⊙', name: 'E-commerce Platform', desc: 'Next.js, Stripe, Postgres', time: '1天前更新' },
-  { icon: '⌘', name: 'Internal Dashboard', desc: 'React, UI Kit, Chart.js', time: '2天前更新' },
-  { icon: '□', iconClass: 'purple', name: 'Docs Assistant', desc: 'GPT-4o, LangChain, Chroma', time: '3天前更新' },
-]
-
-const aiActivity = [
-  { icon: '✧', title: '已生成提示词', desc: 'AI SaaS Starter', time: '2分钟前' },
-  { icon: '⛓', title: '规则已更新', desc: '营销智能体', time: '15分钟前' },
-  { icon: '▧', title: '已添加上下文', desc: '电商平台', time: '1小时前' },
-  { icon: '▷', title: '智能体已执行', desc: '文档助手', time: '2小时前' },
-  { icon: '✣', title: '已生成提示词', desc: '内部仪表盘', time: '3小时前' },
-]
+const stats = ref({ project_count: 0, prompt_count: 0, generation_count: 0 })
+const recentGenerations = ref<AIGeneration[]>([])
+const error = ref('')
 
 const quickActions = [
   '▣ 创建新项目',
@@ -32,10 +27,55 @@ const quickActions = [
   '⌕ 搜索模板',
   '⬡ 添加知识',
 ]
+
+const projectTypeIcons: Record<string, { icon: string; iconClass?: string }> = {
+  saas: { icon: '⌁' },
+  ai_chat_app: { icon: '◌', iconClass: 'purple' },
+  ai_agent_app: { icon: '⊙' },
+  ecommerce: { icon: '⌘' },
+  admin_dashboard: { icon: '□', iconClass: 'purple' },
+  blog_cms: { icon: '▤' },
+  landing_page: { icon: '✧' },
+  mobile_app: { icon: '⬡' },
+  developer_tool: { icon: '▹' },
+  internal_system: { icon: '⌁' },
+}
+
+function getProjectIcon(type: string) {
+  return projectTypeIcons[type] || { icon: '▣' }
+}
+
+function timeAgo(dateStr: string) {
+  const diff = Date.now() - new Date(dateStr).getTime()
+  const mins = Math.floor(diff / 60000)
+  if (mins < 60) return `${mins}分钟前`
+  const hours = Math.floor(mins / 60)
+  if (hours < 24) return `${hours}小时前`
+  const days = Math.floor(hours / 24)
+  return `${days}天前`
+}
+
+onMounted(async () => {
+  try {
+    error.value = ''
+    const [statsRes, , genRes] = await Promise.all([
+      dashboardApi.stats(),
+      projectStore.fetchProjects({ page: 1, page_size: 5 }),
+      generationApi.list({ page: 1, page_size: 5 }),
+    ])
+    stats.value = statsRes.data.data
+    recentGenerations.value = genRes.data.data
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : '工作台加载失败'
+    error.value = message
+    toast.show(message)
+  }
+})
 </script>
 
 <template>
   <div class="p-[32px_36px]">
+    <div v-if="error" class="mb-4 p-3 rounded-[10px] bg-red-50 border border-red-200 text-red-600 text-sm">{{ error }}</div>
     <div class="workspace-top flex items-center justify-between mb-6">
       <div class="search flex items-center gap-2 h-[42px] px-4 rounded-[10px] bg-white border border-line shadow-btn w-[340px]">
         <span class="text-muted">⌕</span>
@@ -46,7 +86,7 @@ const quickActions = [
     </div>
 
     <section class="headline mb-6">
-      <h1 class="text-2xl font-bold">早上好，Alex 👋</h1>
+      <h1 class="text-2xl font-bold">早上好，{{ auth.username }} 👋</h1>
       <p class="text-muted mt-1">你的工作台动态一览。</p>
     </section>
 
@@ -55,50 +95,50 @@ const quickActions = [
         <section class="stats grid grid-cols-5 gap-4 mb-5">
           <div class="stat flex items-center gap-3 p-4 rounded-[14px] glass glass-hover">
             <span class="icon-box">▣</span>
-            <div><strong class="block text-lg">12</strong><span class="text-xs text-muted">项目</span></div>
+            <div><strong class="block text-lg">{{ stats.project_count }}</strong><span class="text-xs text-muted">项目</span></div>
           </div>
           <div class="stat flex items-center gap-3 p-4 rounded-[14px] glass glass-hover">
             <span class="icon-box green">›_</span>
-            <div><strong class="block text-lg">248</strong><span class="text-xs text-muted">提示词</span></div>
+            <div><strong class="block text-lg">{{ stats.prompt_count }}</strong><span class="text-xs text-muted">提示词</span></div>
           </div>
           <div class="stat flex items-center gap-3 p-4 rounded-[14px] glass glass-hover">
             <span class="icon-box">▤</span>
-            <div><strong class="block text-lg">8</strong><span class="text-xs text-muted">智能体</span></div>
+            <div><strong class="block text-lg">{{ stats.generation_count }}</strong><span class="text-xs text-muted">AI 生成</span></div>
           </div>
           <div class="stat flex items-center gap-3 p-4 rounded-[14px] glass glass-hover">
             <span class="icon-box purple">♙</span>
-            <div><strong class="block text-lg">4</strong><span class="text-xs text-muted">用户</span></div>
+            <div><strong class="block text-lg">1</strong><span class="text-xs text-muted">用户</span></div>
           </div>
           <div class="stat flex items-center gap-3 p-4 rounded-[14px] glass glass-hover">
             <span class="icon-box pink">≋</span>
-            <div><strong class="block text-lg">4.2k</strong><span class="text-xs text-muted">Token 用量</span></div>
+            <div><strong class="block text-lg">0</strong><span class="text-xs text-muted">Token 用量</span></div>
           </div>
         </section>
 
         <section class="grid grid-cols-2 gap-5 mb-5">
           <AppCard title="最近项目">
             <template #actions>
-              <router-link to="/project/demo" class="text-primary text-xs font-semibold">查看全部</router-link>
+              <router-link to="/dashboard" class="text-primary text-xs font-semibold">查看全部</router-link>
             </template>
             <div class="flex flex-col gap-0">
-              <router-link v-for="p in recentProjects" :key="p.name" to="/project/demo" class="flex items-center gap-3 py-3 border-b border-line last:border-0 hover:bg-[#f8fbff] transition-colors">
-                <span class="icon-box" :class="p.iconClass">{{ p.icon }}</span>
-                <div class="flex-1 min-w-0"><b class="block text-sm truncate">{{ p.name }}</b><span class="text-xs text-muted">{{ p.desc }}</span></div>
-                <span class="text-xs text-muted whitespace-nowrap">{{ p.time }}</span>
+              <router-link v-for="p in projectStore.projects" :key="p.id" :to="`/project/${p.id}`" class="flex items-center gap-3 py-3 border-b border-line last:border-0 hover:bg-[#f8fbff] transition-colors">
+                <span class="icon-box" :class="getProjectIcon(p.project_type).iconClass">{{ getProjectIcon(p.project_type).icon }}</span>
+                <div class="flex-1 min-w-0"><b class="block text-sm truncate">{{ p.name }}</b><span class="text-xs text-muted">{{ p.frontend_stack || p.project_type }}</span></div>
+                <span class="text-xs text-muted whitespace-nowrap">{{ timeAgo(p.updated_at) }}</span>
               </router-link>
             </div>
           </AppCard>
 
           <AppCard title="AI 动态">
             <template #actions>
-              <router-link to="/prompt-studio" class="text-primary text-xs font-semibold">查看全部动态</router-link>
+              <router-link v-if="recentGenerations[0]" :to="`/project/${recentGenerations[0].project_id}/prompt-studio`" class="text-primary text-xs font-semibold">查看全部动态</router-link>
             </template>
             <div class="flex flex-col gap-0">
-              <div v-for="a in aiActivity" :key="a.title + a.time" class="flex items-center gap-3 py-3 border-b border-line last:border-0">
-                <span class="icon-box">{{ a.icon }}</span>
-                <div class="flex-1 min-w-0"><b class="block text-sm">{{ a.title }}</b><span class="text-xs text-muted">{{ a.desc }}</span></div>
-                <span class="text-xs text-muted whitespace-nowrap">{{ a.time }}</span>
-              </div>
+              <router-link v-for="g in recentGenerations" :key="g.id" :to="`/project/${g.project_id}/prompt-studio`" class="flex items-center gap-3 py-3 border-b border-line last:border-0 hover:bg-[#f8fbff] transition-colors">
+                <span class="icon-box">✧</span>
+                <div class="flex-1 min-w-0"><b class="block text-sm">{{ g.generation_type === 'prompt' ? '已生成提示词' : '已生成规则' }}</b><span class="text-xs text-muted">{{ g.model_provider }}</span></div>
+                <span class="text-xs text-muted whitespace-nowrap">{{ g.status }}</span>
+              </router-link>
             </div>
           </AppCard>
         </section>

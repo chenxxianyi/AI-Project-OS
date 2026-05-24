@@ -1,11 +1,24 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { useProjectStore } from '@/stores/project'
+import { docApi, type ProjectDoc } from '@/api/doc'
+import { useToast } from '@/composables/useToast'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppCard from '@/components/ui/AppCard.vue'
 import AppChip from '@/components/ui/AppChip.vue'
 
+const route = useRoute()
+const toast = useToast()
+const projectStore = useProjectStore()
+const projectId = computed(() => route.params.id as string)
+
 const activeTab = ref(0)
 const brainTabs = ['⌘ 知识图谱', '▧ 文档', '⌘ API 文档', '↱ 时间线']
+
+const docs = ref<ProjectDoc[]>([])
+const selectedDoc = ref<ProjectDoc | null>(null)
+const error = ref('')
 
 const nodes = [
   { id: 'n1', icon: '▣', label: '认证', cls: 'n1' },
@@ -24,17 +37,44 @@ const relatedNodes = [
   { icon: '▤', iconClass: 'purple', name: '支付', tag: '可选' },
 ]
 
-const knowledgeDocs = [
-  { name: 'auth_flow.md', time: '2天前更新' },
-  { name: 'session_management.md', time: '5天前更新' },
-  { name: 'rbac_model.md', time: '1周前更新' },
-]
+const project = computed(() => projectStore.currentProject)
+
+function timeAgo(dateStr: string) {
+  const diff = Date.now() - new Date(dateStr).getTime()
+  const mins = Math.floor(diff / 60000)
+  if (mins < 60) return `${mins}分钟前`
+  const hours = Math.floor(mins / 60)
+  if (hours < 24) return `${hours}小时前`
+  const days = Math.floor(hours / 24)
+  return `${days}天前`
+}
+
+onMounted(async () => {
+  try {
+    error.value = ''
+    if (projectId.value) {
+      await projectStore.fetchProject(projectId.value)
+      const res = await docApi.list(projectId.value)
+      docs.value = res.data.data
+      if (docs.value.length > 0) {
+        selectedDoc.value = docs.value[0]
+      }
+    } else {
+      error.value = '缺少项目 ID'
+    }
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : '项目大脑加载失败'
+    error.value = message
+    toast.show(message)
+  }
+})
 </script>
 
 <template>
   <div class="p-[32px_36px]">
+    <div v-if="error" class="mb-4 p-3 rounded-[10px] bg-red-50 border border-red-200 text-red-600 text-sm">{{ error }}</div>
     <div class="breadcrumb flex items-center gap-2 text-sm mb-4">
-      <span>＋</span><span>›</span><span class="text-muted">项目</span><span>›</span><span>＋</span><b>AI SaaS Starter</b>
+      <span>＋</span><span>›</span><span class="text-muted">项目</span><span>›</span><span>＋</span><b>{{ project?.name || '...' }}</b>
     </div>
 
     <div class="workspace-top flex items-end justify-between mb-5">
@@ -78,7 +118,7 @@ const knowledgeDocs = [
 
           <!-- Center Node -->
           <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-2 px-4 py-3 rounded-2xl bg-white border-2 border-primary shadow-primary cursor-pointer">
-            <span class="icon-box">⌘</span><b class="text-sm font-bold">AI SaaS Starter</b>
+            <span class="icon-box">⌘</span><b class="text-sm font-bold">{{ project?.name || '项目' }}</b>
           </div>
 
           <!-- Satellite Nodes -->
@@ -97,11 +137,11 @@ const knowledgeDocs = [
         <!-- Detail Panel -->
         <aside class="detail border-l border-line p-5 overflow-auto">
           <h3 class="font-bold text-sm mb-4">节点详情</h3>
-          <div class="flex items-center gap-3 mb-3">
-            <span class="icon-box big">▣</span>
-            <div><h3 class="font-bold text-base">认证</h3><AppChip label="核心模块" /></div>
+          <div v-if="selectedDoc" class="flex items-center gap-3 mb-3">
+            <span class="icon-box big">▧</span>
+            <div><h3 class="font-bold text-base">{{ selectedDoc.title }}</h3><AppChip :label="selectedDoc.doc_type" /></div>
           </div>
-          <p class="text-muted text-sm leading-relaxed">处理平台上的用户认证、授权和会话管理。</p>
+          <p v-if="selectedDoc" class="text-muted text-sm leading-relaxed">{{ selectedDoc.content?.slice(0, 200) }}{{ selectedDoc.content?.length > 200 ? '...' : '' }}</p>
 
           <div class="h-px bg-line my-5" />
           <h4 class="font-bold text-sm mb-3">关联节点</h4>
@@ -114,12 +154,13 @@ const knowledgeDocs = [
           </div>
 
           <div class="h-px bg-line my-5" />
-          <h4 class="font-bold text-sm mb-3">关键知识</h4>
+          <h4 class="font-bold text-sm mb-3">知识文档</h4>
           <div class="flex flex-col gap-0">
-            <div v-for="k in knowledgeDocs" :key="k.name" class="flex items-center gap-2.5 py-2.5 border-b border-line last:border-0">
+            <div v-for="d in docs" :key="d.id" class="flex items-center gap-2.5 py-2.5 border-b border-line last:border-0 cursor-pointer hover:bg-[#f8fbff]"
+              @click="selectedDoc = d">
               <span class="icon-box">▧</span>
-              <b class="text-sm flex-1">{{ k.name }}</b>
-              <span class="text-xs text-muted">{{ k.time }}</span>
+              <b class="text-sm flex-1">{{ d.title }}</b>
+              <span class="text-xs text-muted">{{ timeAgo(d.updated_at) }}</span>
             </div>
           </div>
 

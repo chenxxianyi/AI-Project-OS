@@ -1,10 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { useProjectStore } from '@/stores/project'
+import { promptApi, type Prompt } from '@/api/prompt'
 import { useToast } from '@/composables/useToast'
 import AppButton from '@/components/ui/AppButton.vue'
 import AppCard from '@/components/ui/AppCard.vue'
 
+const route = useRoute()
 const toast = useToast()
+const projectStore = useProjectStore()
+const projectId = computed(() => route.params.id as string)
+
 const activeTab = ref(0)
 const ruleTabs = ['Cursor 规则', 'CLAUDE.md', 'AGENTS.md']
 
@@ -19,46 +26,53 @@ const categories = [
   { icon: '⊕', name: '自定义' },
 ]
 
-const rulesContent = `# 通用规则
+const rulesContent = ref('')
+const rulePrompts = ref<Prompt[]>([])
+const error = ref('')
 
-## 核心原则
-- 编写清晰、简洁、可维护的代码
-- 优先考虑可读性和一致性
-- 简洁优于取巧
+const project = computed(() => projectStore.currentProject)
 
-## 代码质量
-- 使用有意义的变量和函数名
-- 保持函数小而专注
-- 避免代码重复
-- 优雅地处理错误
+onMounted(async () => {
+  try {
+    error.value = ''
+    if (projectId.value) {
+      await projectStore.fetchProject(projectId.value)
+      const res = await promptApi.list(projectId.value, { type: 'rule' })
+      rulePrompts.value = res.data.data
+      if (rulePrompts.value.length > 0) {
+        rulesContent.value = rulePrompts.value[0].content
+      }
+    } else {
+      error.value = '缺少项目 ID'
+    }
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : '规则加载失败'
+    error.value = message
+    toast.show(message)
+  }
+})
 
-## 文档
-- 为复杂逻辑添加注释
-- 保持 README.md 更新
-- 记录公共 API 和函数
-
-## 协作
-- 遵循已有的项目结构
-- 尊重现有模式和约定
-- 提交前审查变更
-- 编写清晰的提交信息
-
-## 性能
-- 考虑性能影响
-- 仅在必要时优化
-- 优化前先做性能分析`
-
-const previewSections = [
-  { title: '核心原则', items: ['编写清晰、简洁、可维护的代码', '优先考虑可读性和一致性', '简洁优于取巧'] },
-  { title: '代码质量', items: ['使用有意义的变量和函数名', '保持函数小而专注', '避免代码重复', '优雅地处理错误'] },
-  { title: '文档', items: ['为复杂逻辑添加注释', '保持 README.md 更新', '记录公共 API 和函数'] },
-  { title: '协作', items: ['遵循已有的项目结构', '尊重现有模式和约定', '提交前审查变更', '编写清晰的提交信息'] },
-  { title: '性能', items: ['考虑性能影响', '仅在必要时优化', '优化前先做性能分析'] },
-]
+const previewSections = computed(() => {
+  if (!rulesContent.value) return []
+  const lines = rulesContent.value.split('\n')
+  const sections: { title: string; items: string[] }[] = []
+  let current: { title: string; items: string[] } | null = null
+  for (const line of lines) {
+    if (line.startsWith('## ')) {
+      if (current) sections.push(current)
+      current = { title: line.replace('## ', ''), items: [] }
+    } else if (line.startsWith('- ') && current) {
+      current.items.push(line.replace('- ', ''))
+    }
+  }
+  if (current) sections.push(current)
+  return sections
+})
 </script>
 
 <template>
   <div class="p-[32px_36px]">
+    <div v-if="error" class="mb-4 p-3 rounded-[10px] bg-red-50 border border-red-200 text-red-600 text-sm">{{ error }}</div>
     <div class="workspace-top flex items-center justify-between mb-4">
       <div class="search flex items-center gap-2 h-[42px] px-4 rounded-[10px] bg-white border border-line shadow-btn w-[340px]">
         <span class="text-muted">⌕</span>
@@ -106,7 +120,8 @@ const previewSections = [
         <template #actions>
           <AppButton variant="ghost" class="!min-h-[34px]">Markdown⌄</AppButton>
         </template>
-        <div class="editor-box p-5 font-mono text-sm leading-relaxed whitespace-pre-wrap text-[#53617f] min-h-[600px]">{{ rulesContent }}</div>
+        <div v-if="rulesContent" class="editor-box p-5 font-mono text-sm leading-relaxed whitespace-pre-wrap text-[#53617f] min-h-[600px]">{{ rulesContent }}</div>
+        <div v-else class="editor-box p-5 text-muted text-sm min-h-[600px] flex items-center justify-center">暂无规则内容，请先在项目中创建规则类型的提示词</div>
       </AppCard>
 
       <!-- Preview -->
@@ -114,8 +129,7 @@ const previewSections = [
         <template #actions>
           <AppButton variant="ghost" class="!min-h-[32px] !px-2.5">↗</AppButton>
         </template>
-        <div class="markdown-preview p-4 text-sm leading-relaxed">
-          <h2 class="text-lg font-bold mb-4">通用规则</h2>
+        <div v-if="previewSections.length" class="markdown-preview p-4 text-sm leading-relaxed">
           <template v-for="s in previewSections" :key="s.title">
             <h3 class="font-bold mt-4 mb-2 text-[#08163d]">{{ s.title }}</h3>
             <ul class="list-disc pl-5 text-[#53617f]">
@@ -123,12 +137,13 @@ const previewSections = [
             </ul>
           </template>
         </div>
+        <div v-else class="p-4 text-muted text-sm">暂无预览内容</div>
       </AppCard>
     </section>
 
     <div class="savebar glass fixed bottom-0 left-[216px] right-0 flex items-center justify-between px-8 py-4 z-40">
       <span class="text-xs text-muted">⬡ 这些规则将包含在你的项目上下文中，并应用于所有 AI 交互。</span>
-      <span class="text-xs text-muted">最后更新&nbsp;&nbsp;&nbsp; 2分钟前</span>
+      <span class="text-xs text-muted">最后更新&nbsp;&nbsp;&nbsp; {{ project?.updated_at ? new Date(project.updated_at).toLocaleString('zh-CN') : '-' }}</span>
       <AppButton variant="primary" @click="toast.show('规则已保存')">保存规则</AppButton>
     </div>
   </div>
