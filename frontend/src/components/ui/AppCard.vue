@@ -6,8 +6,8 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-  <div class="panel rounded-[14px] bg-white/78 border border-line shadow-card backdrop-blur-[22px]">
-    <div v-if="title" class="panel-head flex items-center justify-between px-5 py-4 border-b border-line">
+  <div class="panel rounded-[14px] glass">
+    <div v-if="title" class="panel-head flex items-center justify-between px-5 py-4 border-b border-white/20">
       <h3 class="panel-title font-bold text-sm flex items-center gap-2">
         <slot name="icon" />
         {{ title }}

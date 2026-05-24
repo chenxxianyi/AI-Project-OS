@@ -53,23 +53,23 @@ const quickActions = [
     <div class="dashboard-layout grid grid-cols-[1fr_280px] gap-5">
       <div>
         <section class="stats grid grid-cols-5 gap-4 mb-5">
-          <div class="stat flex items-center gap-3 p-4 rounded-[14px] bg-white/78 border border-line shadow-card">
+          <div class="stat flex items-center gap-3 p-4 rounded-[14px] glass glass-hover">
             <span class="icon-box">▣</span>
             <div><strong class="block text-lg">12</strong><span class="text-xs text-muted">项目</span></div>
           </div>
-          <div class="stat flex items-center gap-3 p-4 rounded-[14px] bg-white/78 border border-line shadow-card">
+          <div class="stat flex items-center gap-3 p-4 rounded-[14px] glass glass-hover">
             <span class="icon-box green">›_</span>
             <div><strong class="block text-lg">248</strong><span class="text-xs text-muted">提示词</span></div>
           </div>
-          <div class="stat flex items-center gap-3 p-4 rounded-[14px] bg-white/78 border border-line shadow-card">
+          <div class="stat flex items-center gap-3 p-4 rounded-[14px] glass glass-hover">
             <span class="icon-box">▤</span>
             <div><strong class="block text-lg">8</strong><span class="text-xs text-muted">智能体</span></div>
           </div>
-          <div class="stat flex items-center gap-3 p-4 rounded-[14px] bg-white/78 border border-line shadow-card">
+          <div class="stat flex items-center gap-3 p-4 rounded-[14px] glass glass-hover">
             <span class="icon-box purple">♙</span>
             <div><strong class="block text-lg">4</strong><span class="text-xs text-muted">用户</span></div>
           </div>
-          <div class="stat flex items-center gap-3 p-4 rounded-[14px] bg-white/78 border border-line shadow-card">
+          <div class="stat flex items-center gap-3 p-4 rounded-[14px] glass glass-hover">
             <span class="icon-box pink">≋</span>
             <div><strong class="block text-lg">4.2k</strong><span class="text-xs text-muted">Token 用量</span></div>
           </div>
@@ -117,7 +117,7 @@ const quickActions = [
       </div>
 
       <aside class="flex flex-col gap-5">
-        <div class="p-5 rounded-[14px] bg-white/78 border border-line shadow-card">
+        <div class="p-5 rounded-[14px] glass glass-hover">
           <h3 class="font-bold text-sm mb-4">工作台概览</h3>
           <p class="text-xs text-muted mt-5">计划</p><b class="text-sm">专业版</b>
           <p class="text-xs text-muted mt-[22px]">用量</p><b class="text-sm">4.2M / 10M Token <span class="text-muted float-right">42%</span></b>
@@ -127,7 +127,7 @@ const quickActions = [
           <AppButton block @click="toast.show('邀请链接已复制')">♙ 邀请</AppButton>
         </div>
 
-        <div class="p-5 rounded-[14px] bg-white/78 border border-line shadow-card">
+        <div class="p-5 rounded-[14px] glass glass-hover">
           <h3 class="font-bold text-sm mb-3">快捷操作</h3>
           <div class="flex flex-col gap-0">
             <div v-for="q in quickActions" :key="q" class="flex items-center py-2.5 border-b border-line last:border-0 text-sm cursor-pointer hover:bg-[#f8fbff] transition-colors">
@@ -136,7 +136,7 @@ const quickActions = [
           </div>
         </div>
 
-        <div class="p-5 rounded-[14px] bg-gradient-to-br from-[#eef3ff] to-white border border-line shadow-card">
+        <div class="p-5 rounded-[14px] glass glass-hover !bg-gradient-to-br !from-[#eef3ff]/50 !to-white/30">
           <h3 class="font-bold text-sm">AI Project OS 专业版</h3>
           <p class="text-xs text-muted my-2.5">解锁无限 Token、高级智能体等更多功能。</p>
           <AppButton variant="primary" block>立即升级</AppButton>

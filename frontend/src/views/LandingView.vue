@@ -4,7 +4,7 @@ import AppButton from '@/components/ui/AppButton.vue'
 
 <template>
   <div class="landing-body min-h-screen p-[22px_34px_32px] overflow-x-hidden">
-    <header class="topbar h-[78px] rounded-[18px] flex items-center justify-between px-6 max-w-[1210px] mx-auto bg-white/72 border border-line shadow-card backdrop-blur-[20px]">
+    <header class="topbar h-[78px] rounded-[18px] flex items-center justify-between px-6 max-w-[1210px] mx-auto glass">
       <router-link to="/" class="flex items-center gap-3 font-black text-lg text-[#0b173d]">
         <span class="brand-mark w-[34px] h-[34px] rounded-[11px] bg-gradient-to-br from-[#eef3ff] to-white grid place-items-center text-primary shadow-[inset_0_0_0_1px_#dfe7ff]">✦</span>
         AI Project OS
@@ -26,7 +26,7 @@ import AppButton from '@/components/ui/AppButton.vue'
       <section class="hero grid grid-cols-2 gap-5 max-w-[1120px] mx-auto mt-8 min-h-[492px] items-center relative">
         <div>
           <h1 class="text-[76px] leading-[0.94] tracking-[-0.065em] mb-7">AI Project OS</h1>
-          <p class="text-xl leading-[1.8] text-[#62708d] max-w-[620px] mb-8">AI 原生工作台，用于 Prompt 工程、项目上下文、规则管理和多智能体开发。</p>
+          <p class="text-xl leading-[1.8] text-[#62708d] max-w-[620px] mb-8">AI 原生工作台，用于 Prompt 工程、项目上下文、规则管理 and 多智能体开发。</p>
           <div class="flex gap-5">
             <AppButton variant="primary"><span>✦</span><router-link to="/dashboard">创建项目</router-link></AppButton>
             <AppButton><span>▱</span><router-link to="/dashboard">探索模板</router-link></AppButton>
@@ -40,26 +40,26 @@ import AppButton from '@/components/ui/AppButton.vue'
               <div class="cube-core w-[42px] h-[42px] rounded-full bg-[radial-gradient(circle,#fff,#8eabff)] shadow-[0_0_38px_rgba(75,105,255,.7)]" />
             </div>
           </div>
-          <div class="callout absolute right-0 w-[210px] p-[18px_20px] rounded-2xl bg-white/72 border border-line shadow-card flex gap-3.5 items-center top-[46px]">
+          <div class="callout absolute right-0 w-[210px] p-[18px_20px] rounded-2xl glass glass-hover flex gap-3.5 items-center top-[46px]">
             <span class="icon-box">✦</span>
             <span><b class="block text-[13px]">Prompt 工作室</b><span class="text-[11px] text-muted">编写强大的提示词</span></span>
           </div>
-          <div class="callout absolute right-[-22px] w-[210px] p-[18px_20px] rounded-2xl bg-white/72 border border-line shadow-card flex gap-3.5 items-center top-[152px]">
+          <div class="callout absolute right-[-22px] w-[210px] p-[18px_20px] rounded-2xl glass glass-hover flex gap-3.5 items-center top-[152px]">
             <span class="icon-box">▣</span>
             <span><b class="block text-[13px]">规则构建器</b><span class="text-[11px] text-muted">定义项目规则</span></span>
           </div>
-          <div class="callout absolute right-0 w-[210px] p-[18px_20px] rounded-2xl bg-white/72 border border-line shadow-card flex gap-3.5 items-center top-[270px]">
+          <div class="callout absolute right-0 w-[210px] p-[18px_20px] rounded-2xl glass glass-hover flex gap-3.5 items-center top-[270px]">
             <span class="icon-box purple">◉</span>
             <span><b class="block text-[13px]">项目大脑</b><span class="text-[11px] text-muted">组织项目知识</span></span>
           </div>
-          <div class="callout absolute right-[-18px] w-[210px] p-[18px_20px] rounded-2xl bg-white/72 border border-line shadow-card flex gap-3.5 items-center top-[382px]">
+          <div class="callout absolute right-[-18px] w-[210px] p-[18px_20px] rounded-2xl glass glass-hover flex gap-3.5 items-center top-[382px]">
             <span class="icon-box">✹</span>
             <span><b class="block text-[13px]">上下文引擎</b><span class="text-[11px] text-muted">理解项目全貌</span></span>
           </div>
         </div>
       </section>
 
-      <section class="feature-strip max-w-[1118px] mx-auto my-[18px_38px] p-[22px_30px] rounded-[18px] grid grid-cols-5 bg-white/65 border border-line shadow-card">
+      <section class="feature-strip max-w-[1118px] mx-auto my-[18px_38px] p-[22px_30px] rounded-[18px] grid grid-cols-5 glass">
         <div class="feature-tile text-center min-h-[112px] grid place-items-center border-r border-line">
           <div><span class="icon-box big">✧</span><b class="block my-2.5">Prompt 工作室</b><span class="block text-muted leading-[1.55] text-xs">设计和迭代<br>提示词</span></div>
         </div>

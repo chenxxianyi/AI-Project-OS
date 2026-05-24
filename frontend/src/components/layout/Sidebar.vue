@@ -34,7 +34,7 @@ function navigate(name: string) {
 
 <template>
   <aside
-    class="sidebar shrink-0 w-[216px] min-h-screen flex flex-col border-r border-line bg-white/60 backdrop-blur-[20px] p-5"
+    class="sidebar shrink-0 w-[216px] min-h-screen flex flex-col p-5 glass !border-r !border-white/20 !rounded-none"
   >
     <router-link to="/" class="flex items-center gap-3 font-black text-lg text-[#0b173d] mb-6">
       <span class="brand-mark w-[34px] h-[34px] rounded-[11px] bg-gradient-to-br from-[#eef3ff] to-white grid place-items-center text-primary shadow-[inset_0_0_0_1px_#dfe7ff]">✦</span>
