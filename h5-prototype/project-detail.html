@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI SaaS Starter · AI Project OS</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="index.html"><span class="brand-mark"></span><span>AI Project OS</span></a>
+      <nav class="side-nav">
+        <a class="nav-link" href="dashboard.html"><span>⌂</span>首页</a>
+        <a class="nav-link active" href="project-detail.html"><span>▣</span>项目</a>
+        <a class="nav-link" href="dashboard.html"><span>▤</span>模板</a>
+        <a class="nav-link" href="dashboard.html"><span>◇</span>智能体</a>
+        <div class="nav-sep"></div>
+        <a class="nav-link" href="prompt-studio.html"><span>↗</span>Prompt 工作室</a>
+        <a class="nav-link" href="rules-builder.html"><span>▥</span>规则构建器</a>
+        <a class="nav-link" href="project-brain.html"><span>⬡</span>项目大脑</a>
+        <a class="nav-link" href="dashboard.html"><span>⚙</span>设置</a>
+      </nav>
+      <div class="side-bottom">
+        <button class="btn block ghost" data-toast="已打开升级计划">◎ 升级计划</button>
+        <div class="upgrade-mini"><b>AI Project OS 专业版</b><p class="small muted" style="margin:10px 0">4.2M / 10M Token</p><div class="usage-bar"><i></i></div></div>
+        <div class="user-card"><div class="avatar"></div><div><b>Alex Chen</b><span class="small muted">alex@example.com</span></div><span>⌄</span></div>
+      </div>
+    </aside>
+
+    <main class="main page-pad">
+      <div class="workspace-top">
+        <div class="breadcrumb"><span>▣</span><span>›</span><span>项目</span><span>›</span><b>AI SaaS Starter</b></div>
+        <div style="display:flex;gap:12px"><button class="btn">↗ 在编辑器中打开</button><button class="btn">⋯</button></div>
+      </div>
+
+      <section class="project-hero">
+        <div class="project-logo">▱</div>
+        <div>
+          <h1>AI SaaS Starter</h1>
+          <p class="muted" style="margin-bottom:12px">基于 Next.js 和现代工具构建的 AI SaaS 启动套件，用于快速开发应用。</p>
+          <div style="display:flex;gap:10px"><span class="chip">Next.js</span><span class="chip">Tailwind</span><span class="chip">Supabase</span><span class="chip">OpenAI</span></div>
+        </div>
+      </section>
+
+      <nav class="tabs">
+        <a class="tab active" href="project-detail.html">概览</a>
+        <a class="tab" href="prompt-studio.html">提示词</a>
+        <a class="tab" href="rules-builder.html">规则</a>
+        <a class="tab" href="project-brain.html">项目大脑</a>
+        <a class="tab" href="project-detail.html">设置</a>
+      </nav>
+
+      <section class="project-grid">
+        <div class="panel">
+          <div class="panel-head"><h3 class="panel-title"><span class="icon">▧</span> 项目概览</h3></div>
+          <div style="padding:0 20px 25px;color:#53617f;line-height:1.8">AI SaaS Starter 是一个生产就绪的启动套件，用于构建带认证、支付和现代技术栈的 AI 驱动 SaaS 应用。</div>
+          <div class="info-list">
+            <div class="info-item"><span>◷ 创建时间</span><b>2024年5月12日</b></div>
+            <div class="info-item"><span>↧ 最后更新</span><b>2小时前</b></div>
+            <div class="info-item"><span>⊙ 可见性</span><b>私有</b></div>
+            <div class="info-item"><span>♙ 成员</span><div class="member-stack"><i></i><i></i><i></i><i></i><span class="chip">+3</span></div></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h3 class="panel-title"><span class="icon">▱</span> 技术栈</h3></div>
+          <div class="tech-grid">
+            <div class="tech"><span class="tech-logo">N</span>Next.js</div>
+            <div class="tech"><span class="tech-logo" style="color:#21b8d5">≈</span>Tailwind CSS</div>
+            <div class="tech"><span class="tech-logo green">⚡</span>Supabase</div>
+            <div class="tech"><span class="tech-logo">//</span>Shadcn</div>
+            <div class="tech"><span class="tech-logo">◎</span>OpenAI</div>
+            <div class="tech"><span class="tech-logo" style="background:#3178c6;color:#fff">TS</span>TypeScript</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h3 class="panel-title"><span class="icon">☷</span> 最近提示词</h3></div>
+          <div class="list">
+            <div class="row"><span class="icon">▣</span><div class="row-main"><b>用户认证流程</b></div><span class="row-time">2分钟前</span></div>
+            <div class="row"><span class="icon">▣</span><div class="row-main"><b>订阅计划组件</b></div><span class="row-time">5小时前</span></div>
+            <div class="row"><span class="icon">▣</span><div class="row-main"><b>仪表盘分析组件</b></div><span class="row-time">1天前</span></div>
+            <a class="row" href="prompt-studio.html" style="justify-content:center;color:var(--primary)">查看全部提示词 →</a>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h3 class="panel-title"><span class="icon">⌁</span> 项目动态</h3></div>
+          <div class="list">
+            <div class="row"><span class="icon">☷</span><div class="row-main"><b>已生成提示词</b><span>用户认证流程</span></div><span class="row-time">2分钟前</span></div>
+            <div class="row"><span class="icon">⛓</span><div class="row-main"><b>规则已更新</b><span>营销智能体</span></div><span class="row-time">15分钟前</span></div>
+            <div class="row"><span class="icon">▧</span><div class="row-main"><b>上下文已刷新</b><span>AI 文档</span></div><span class="row-time">1小时前</span></div>
+            <div class="row"><span class="icon green">⌬</span><div class="row-main"><b>智能体已执行</b><span>数据库迁移</span></div><span class="row-time">2小时前</span></div>
+            <a class="row" href="dashboard.html" style="justify-content:center;color:var(--primary)">查看全部动态 →</a>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>规则构建器 · AI Project OS</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="index.html"><span class="brand-mark"></span><span>AI Project OS</span></a>
+      <nav class="side-nav">
+        <a class="nav-link" href="dashboard.html"><span>⌂</span>首页</a>
+        <a class="nav-link" href="project-detail.html"><span>▣</span>项目</a>
+        <a class="nav-link" href="dashboard.html"><span>▤</span>模板</a>
+        <a class="nav-link" href="dashboard.html"><span>◇</span>智能体</a>
+        <div class="nav-sep"></div>
+        <a class="nav-link" href="prompt-studio.html"><span>↗</span>Prompt 工作室</a>
+        <a class="nav-link active" href="rules-builder.html"><span>▥</span>规则构建器</a>
+        <a class="nav-link" href="project-brain.html"><span>⬡</span>项目大脑</a>
+        <a class="nav-link" href="dashboard.html"><span>⚙</span>设置</a>
+      </nav>
+      <div class="side-bottom"><button class="btn block ghost">◎ 升级计划</button></div>
+    </aside>
+
+    <main class="main page-pad">
+      <div class="workspace-top">
+        <div class="search"><span>⌕</span><input placeholder="搜索项目、提示词、文档..."><span class="kbd">⌘ K</span></div>
+        <div class="avatar"></div>
+      </div>
+      <div class="workspace-top" style="align-items:flex-end">
+        <section class="headline" style="margin-bottom:0"><h1>规则构建器</h1><p class="muted">为你的项目生成和管理规则。</p></section>
+        <div style="display:flex;gap:12px"><button class="btn">⊙ 预览</button><button class="btn">▣ 复制</button><button class="btn">⇩ 下载</button></div>
+      </div>
+
+      <nav class="tabs"><a class="tab active">Cursor 规则</a><a class="tab">CLAUDE.md</a><a class="tab">AGENTS.md</a></nav>
+
+      <section class="rules-layout">
+        <aside class="panel">
+          <div class="panel-head"><h3 class="panel-title">分类</h3></div>
+          <div class="category-list">
+            <div class="category active">▧ 通用</div><div class="category">⌘ 代码风格</div><div class="category">☆ 最佳实践</div><div class="category">▱ 架构</div><div class="category">⚗ 测试</div><div class="category">⬡ 安全</div><div class="category">⌘ Git 工作流</div><div class="category">⊕ 自定义</div>
+          </div>
+          <div style="padding:26px 14px"><button class="btn block">＋ 添加分类</button></div>
+          <p class="small muted" style="padding:0 18px">✦ 规则会自动应用到你的项目。</p>
+        </aside>
+
+        <section class="panel">
+          <div class="panel-head"><h3 class="panel-title">生成的规则</h3><button class="btn ghost" style="min-height:34px">Markdown⌄</button></div>
+          <div class="editor-box" style="height:600px;border:0;border-top:1px solid var(--line);border-radius:0">
+            <div class="code-lines">
+              <div class="ln">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26</div>
+              <div class="code"><b># 通用规则</b>
+
+<b>## 核心原则</b>
+- 编写清晰、简洁、可维护的代码
+- 优先考虑可读性和一致性
+- 简洁优于取巧
+
+<b>## 代码质量</b>
+- 使用有意义的变量和函数名
+- 保持函数小而专注
+- 避免代码重复
+- 优雅地处理错误
+
+<b>## 文档</b>
+- 为复杂逻辑添加注释
+- 保持 README.md 更新
+- 记录公共 API 和函数
+
+<b>## 协作</b>
+- 遵循已有的项目结构
+- 尊重现有模式和约定
+- 提交前审查变更
+- 编写清晰的提交信息
+
+<b>## 性能</b>
+- 考虑性能影响
+- 仅在必要时优化
+- 优化前先做性能分析</div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="panel">
+          <div class="panel-head"><h3 class="panel-title">预览</h3><button class="btn ghost" style="min-height:32px;padding:0 10px">↗</button></div>
+          <div class="markdown-preview">
+            <h2>通用规则</h2>
+            <h3>核心原则</h3><ul><li>编写清晰、简洁、可维护的代码</li><li>优先考虑可读性和一致性</li><li>简洁优于取巧</li></ul>
+            <h3>代码质量</h3><ul><li>使用有意义的变量和函数名</li><li>保持函数小而专注</li><li>避免代码重复</li><li>优雅地处理错误</li></ul>
+            <h3>文档</h3><ul><li>为复杂逻辑添加注释</li><li>保持 README.md 更新</li><li>记录公共 API 和函数</li></ul>
+            <h3>协作</h3><ul><li>遵循已有的项目结构</li><li>尊重现有模式和约定</li><li>提交前审查变更</li><li>编写清晰的提交信息</li></ul>
+            <h3>性能</h3><ul><li>考虑性能影响</li><li>仅在必要时优化</li><li>优化前先做性能分析</li></ul>
+          </div>
+        </aside>
+      </section>
+
+      <div class="savebar glass"><span class="small muted">⬡ 这些规则将包含在你的项目上下文中，并应用于所有 AI 交互。</span><span class="small muted">最后更新&nbsp;&nbsp;&nbsp; 2分钟前</span><button class="btn primary" data-toast="Rules 已保存">保存规则</button></div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompt 工作室 · AI Project OS</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="index.html"><span class="brand-mark"></span><span>AI Project OS</span></a>
+      <nav class="side-nav">
+        <a class="nav-link" href="dashboard.html"><span>⌂</span>首页</a>
+        <a class="nav-link" href="project-detail.html"><span>▣</span>项目</a>
+        <a class="nav-link" href="dashboard.html"><span>▤</span>模板</a>
+        <a class="nav-link" href="dashboard.html"><span>◇</span>智能体</a>
+        <div class="nav-sep"></div>
+        <a class="nav-link active" href="prompt-studio.html"><span>↗</span>Prompt 工作室</a>
+        <a class="nav-link" href="rules-builder.html"><span>▥</span>规则构建器</a>
+        <a class="nav-link" href="project-brain.html"><span>⬡</span>项目大脑</a>
+        <a class="nav-link" href="dashboard.html"><span>⚙</span>设置</a>
+      </nav>
+      <div class="side-bottom">
+        <div class="upgrade-mini"><b>升级计划</b><p class="small muted" style="margin:8px 0 12px">解锁高级功能和更高额度。</p><button class="btn primary block">↗ 立即升级</button></div>
+        <div class="user-card"><div class="avatar"></div><div><b>Alex Taylor</b><span class="small muted">alex@example.com</span></div><span>›</span></div>
+      </div>
+    </aside>
+
+    <main class="main page-pad">
+      <div class="workspace-top">
+        <section class="headline" style="margin-bottom:0"><h1>Prompt 工作室</h1><p class="muted">设计、测试和优化你的提示词。</p></section>
+        <div style="display:flex;gap:12px"><button class="btn">▦ 模板</button><button class="btn">◷ 历史</button><button class="btn primary">＋ 新建提示词</button></div>
+      </div>
+
+      <section class="studio-layout">
+        <aside class="panel">
+          <div class="panel-head"><h3 class="panel-title">模板</h3></div>
+          <div style="padding:0 14px 12px;display:flex;gap:8px"><div class="search" style="width:100%;height:36px"><span>⌕</span><input placeholder="搜索模板..."></div><button class="btn ghost" style="min-height:36px;padding:0 12px">≡</button></div>
+          <div class="template-list">
+            <div class="template-item active"><span class="icon">▱</span><div><b>通用</b><span class="small muted">通用目的提示词</span></div></div>
+            <div class="template-item"><span class="icon">⌬</span><div><b>代码生成</b><span class="small muted">基于上下文生成代码</span></div></div>
+            <div class="template-item"><span class="icon">↻</span><div><b>审查与重构</b><span class="small muted">审查和改进代码</span></div></div>
+            <div class="template-item"><span class="icon">◔</span><div><b>数据分析</b><span class="small muted">分析和可视化数据</span></div></div>
+            <div class="template-item"><span class="icon">✎</span><div><b>内容写作</b><span class="small muted">创建高质量内容</span></div></div>
+            <div class="template-item"><span class="icon">▤</span><div><b>摘要</b><span class="small muted">总结长内容</span></div></div>
+            <div class="template-item"><span class="icon">⚙</span><div><b>自定义</b><span class="small muted">从零开始</span></div></div>
+          </div>
+          <div style="padding:0 14px 18px"><button class="btn block">＋ 新建模板</button></div>
+        </aside>
+
+        <section class="panel">
+          <div class="panel-head"><h3 class="panel-title">未命名提示词</h3><div><span class="small" style="color:#21af7d">✓ 已保存</span> <button class="btn ghost" style="min-height:32px;padding:0 10px">⋯</button></div></div>
+          <div class="editor-box">
+            <div class="code-lines">
+              <div class="ln">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19</div>
+              <div class="code"><b># 角色</b>
+你是一位资深软件工程师。
+
+<b>## 上下文</b>
+你正在开发 <b>{{project_name}}</b> 项目
+使用 <b>{{tech_stack}}</b>。
+
+<b>## 任务</b>
+<b>{{task_description}}</b>
+
+<b>## 要求</b>
+- 遵循最佳实践
+- 编写整洁、可维护的代码
+- 在必要时添加注释
+
+<b>## 输出格式</b>
+- 提供代码
+- 解释实现思路</div>
+            </div>
+          </div>
+          <div class="toolbar-bottom"><span>＋ 变量</span><span>Markdown⌄</span></div>
+        </section>
+
+        <aside class="panel">
+          <div class="panel-head"><h3 class="panel-title">测试提示词</h3></div>
+          <div class="form-stack">
+            <div class="field"><label>模型</label><select><option>GPT-4o</option><option>Claude 3.5 Sonnet</option></select></div>
+            <div class="field"><label>温度</label><input class="range" type="range" min="0" max="1" step="0.1" value="0.7"></div>
+            <button class="btn primary block" data-run-prompt>▷ 运行提示词</button>
+          </div>
+          <div class="panel-head"><div><h3 class="panel-title">输出</h3><p class="small muted">已生成 2,048 Token · 12秒 · GPT-4o · 今天 10:15</p></div><button class="btn ghost" style="min-height:32px;padding:0 10px">↗</button></div>
+          <div class="output"><pre>1  // authentication.js
+2  import jwt from 'jsonwebtoken';
+3  import { User } from './models/User.js';
+4
+5  export const authenticate = async (req, res, next) => {
+6    try {
+7      const token = req.headers.authorization
+8        ?.split(' ')[1];
+9
+10     if (!token) {
+11       return res.status(401).json({
+12         success: false,
+13         message: 'No token provided'
+14       });
+15     }
+16
+17     const decoded = jwt.verify(token,
+18       process.env.JWT_SECRET);
+19     const user = await User.findById(decoded.id)
+20       .select('-password');
+21
+22     if (!user) {
+23       return res.status(401).json({
+24         success: false,
+25         message: 'User not found'
+26       });
+27     }
+28
+29     req.user = user;
+30     next();
+31   } catch (error) {
+32     res.status(401).json({
+33       success: false,
+34       message: 'Invalid token'
+35     });
+36   }
+37 };</pre></div>
+          <div style="display:flex;gap:12px;padding:0 16px 18px"><button class="btn">▣ 复制</button><button class="btn">⇩ 导出⌄</button><button class="btn">⌫ 清空</button></div>
+        </aside>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

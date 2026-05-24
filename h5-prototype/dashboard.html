@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>工作台 · AI Project OS</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="index.html"><span class="brand-mark"></span><span>AI Project OS</span></a>
+      <nav class="side-nav">
+        <a class="nav-link active" href="dashboard.html"><span>⌂</span>首页</a>
+        <a class="nav-link" href="project-detail.html"><span>▣</span>项目</a>
+        <a class="nav-link" href="dashboard.html"><span>▤</span>模板</a>
+        <a class="nav-link" href="dashboard.html"><span>◇</span>智能体</a>
+        <div class="nav-sep"></div>
+        <a class="nav-link" href="prompt-studio.html"><span>↗</span>Prompt 工作室</a>
+        <a class="nav-link" href="rules-builder.html"><span>▥</span>规则构建器</a>
+        <a class="nav-link" href="project-brain.html"><span>⬡</span>项目大脑</a>
+        <a class="nav-link" href="dashboard.html"><span>⚙</span>设置</a>
+      </nav>
+      <div class="side-bottom">
+        <button class="btn block ghost" data-toast="已打开升级计划">◎ 升级计划</button>
+        <div class="user-card"><div class="avatar"></div><div><b>Alex Morgan</b><span class="small muted">alex@morgan.dev</span></div><span>⌄</span></div>
+      </div>
+    </aside>
+
+    <main class="main page-pad">
+      <div class="workspace-top">
+        <div class="search"><span>⌕</span><input placeholder="搜索项目、提示词、文档..."><span class="kbd">⌘ K</span></div>
+        <button class="btn primary" data-open-modal>＋ 新建项目</button>
+      </div>
+
+      <section class="headline">
+        <h1>早上好，Alex 👋</h1>
+        <p class="muted">你的工作台动态一览。</p>
+      </section>
+
+      <div class="dashboard-layout">
+        <div>
+          <section class="stats panel">
+            <div class="stat"><span class="icon">▣</span><div><strong>12</strong><span>项目</span></div></div>
+            <div class="stat"><span class="icon green">›_</span><div><strong>248</strong><span>提示词</span></div></div>
+            <div class="stat"><span class="icon">▤</span><div><strong>8</strong><span>智能体</span></div></div>
+            <div class="stat"><span class="icon purple">♙</span><div><strong>4</strong><span>用户</span></div></div>
+            <div class="stat"><span class="icon pink">≋</span><div><strong>4.2k</strong><span>Token 用量</span></div></div>
+          </section>
+
+          <section class="two-col">
+            <div class="panel">
+              <div class="panel-head"><h3 class="panel-title">最近项目</h3><a class="panel-link" href="project-detail.html">查看全部</a></div>
+              <div class="list">
+                <a class="row" href="project-detail.html"><span class="icon">⌁</span><div class="row-main"><b>AI SaaS Starter</b><span>Next.js, Tailwind, Supabase</span></div><span class="row-time">2小时前更新</span></a>
+                <div class="row"><span class="icon purple">◌</span><div class="row-main"><b>Marketing Agent</b><span>LangChain, OpenAI, Pinecone</span></div><span class="row-time">5小时前更新</span></div>
+                <div class="row"><span class="icon">⊙</span><div class="row-main"><b>E-commerce Platform</b><span>Next.js, Stripe, Postgres</span></div><span class="row-time">1天前更新</span></div>
+                <div class="row"><span class="icon">⌘</span><div class="row-main"><b>Internal Dashboard</b><span>React, UI Kit, Chart.js</span></div><span class="row-time">2天前更新</span></div>
+                <div class="row"><span class="icon purple">□</span><div class="row-main"><b>Docs Assistant</b><span>GPT-4o, LangChain, Chroma</span></div><span class="row-time">3天前更新</span></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><h3 class="panel-title">AI 动态</h3><a class="panel-link" href="prompt-studio.html">查看全部动态</a></div>
+              <div class="list">
+                <div class="row"><span class="icon">✧</span><div class="row-main"><b>已生成提示词</b><span>AI SaaS Starter</span></div><span class="row-time">2m ago</span></div>
+                <div class="row"><span class="icon">⛓</span><div class="row-main"><b>规则已更新</b><span>营销智能体</span></div><span class="row-time">15m ago</span></div>
+                <div class="row"><span class="icon">▧</span><div class="row-main"><b>已添加上下文</b><span>电商平台</span></div><span class="row-time">1h ago</span></div>
+                <div class="row"><span class="icon">▷</span><div class="row-main"><b>智能体已执行</b><span>文档助手</span></div><span class="row-time">2h ago</span></div>
+                <div class="row"><span class="icon">✣</span><div class="row-main"><b>已生成提示词</b><span>内部仪表盘</span></div><span class="row-time">3h ago</span></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" style="margin-top:18px">
+            <div class="panel-head"><h3 class="panel-title">提示词用量 ⓘ</h3><button class="btn ghost">本周⌄</button></div>
+            <div class="chart">
+              <svg viewBox="0 0 760 180" preserveAspectRatio="none">
+                <path d="M0 130 C60 112 75 80 115 86 S185 130 235 92 S320 130 360 65 S450 118 515 92 S615 136 660 92 S720 45 760 50" fill="none" stroke="#4167ff" stroke-width="3"/>
+                <path d="M0 130 C60 112 75 80 115 86 S185 130 235 92 S320 130 360 65 S450 118 515 92 S615 136 660 92 S720 45 760 50 L760 180 L0 180Z" fill="rgba(65,103,255,.08)"/>
+              </svg>
+            </div>
+          </section>
+        </div>
+
+        <aside class="right-rail">
+          <div class="panel" style="padding:20px">
+            <h3 class="panel-title">工作台概览</h3>
+            <p class="small muted" style="margin-top:20px">计划</p><b>专业版</b>
+            <p class="small muted" style="margin-top:22px">用量</p><b>4.2M / 10M tokens <span class="muted" style="float:right">42%</span></b>
+            <div class="usage-bar" style="margin-top:10px"><i></i></div>
+            <p class="small muted" style="margin-top:26px">团队成员</p><div class="member-stack" style="margin:12px 0 22px"><i></i><i></i><i></i><i></i><span class="chip">+3</span></div>
+            <button class="btn block" data-toast="邀请链接已复制">♙ 邀请</button>
+          </div>
+          <div class="panel quick">
+            <div class="panel-head"><h3 class="panel-title">快捷操作</h3></div>
+            <div class="list"><div class="row">▣ 创建新项目 <span style="margin-left:auto">›</span></div><div class="row">▤ 打开 Prompt 工作室 <span style="margin-left:auto">›</span></div><div class="row">⊙ 生成规则 <span style="margin-left:auto">›</span></div><div class="row">⌕ 搜索模板 <span style="margin-left:auto">›</span></div><div class="row">⬡ 添加知识 <span style="margin-left:auto">›</span></div></div>
+          </div>
+          <div class="pro-card"><h3 class="panel-title">AI Project OS 专业版</h3><p class="muted small" style="margin:10px 0 22px">解锁无限 Token、高级智能体等更多功能。</p><button class="btn primary block">立即升级</button></div>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="createProjectModal">
+    <section class="project-modal">
+      <aside class="modal-side">
+        <div class="modal-title"><span class="brand-mark"></span><span>创建新项目</span></div>
+        <div class="steps">
+          <div class="step done"><span class="step-num">1</span>基本信息</div>
+          <div class="step active"><span class="step-num">2</span>技术栈</div>
+          <div class="step"><span class="step-num">3</span>AI 与数据库</div>
+          <div class="step"><span class="step-num">4</span>风格与偏好</div>
+          <div class="step"><span class="step-num">5</span>预览</div>
+        </div>
+        <button class="btn block">返回</button>
+      </aside>
+      <main class="modal-main">
+        <button class="close" data-close-modal>×</button>
+        <h2>技术栈</h2><p class="muted" style="margin-top:8px">选择你偏好的技术栈</p>
+        <div class="stack-section"><h4>选择前端技术栈</h4><div class="stack-grid"><button class="stack-card selected" data-group="front">● Next.js</button><button class="stack-card" data-group="front">⚛ React</button><button class="stack-card" data-group="front">▼ Vue.js</button><button class="stack-card" data-group="front">S Svelte</button></div></div>
+        <div class="stack-section"><h4>选择后端技术栈</h4><div class="stack-grid"><button class="stack-card selected" data-group="back">⬢ Node.js</button><button class="stack-card" data-group="back">🐍 Python</button><button class="stack-card" data-group="back">GO Go</button><button class="stack-card" data-group="back">◒ Deno</button></div></div>
+        <div class="stack-section"><h4>选择数据库</h4><div class="stack-grid"><button class="stack-card selected" data-group="db">🐘 PostgreSQL</button><button class="stack-card" data-group="db">🐬 MySQL</button><button class="stack-card" data-group="db">🍃 MongoDB</button><button class="stack-card" data-group="db">⚡ Supabase</button></div></div>
+        <div class="modal-actions"><button class="btn">返回</button><button class="btn primary" data-next-step>下一步</button></div>
+      </main>
+    </section>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #4167ff;
+  --primary-2: #7e95ff;
+  --primary-3: #8f68ff;
+  --cyan: #23c7db;
+  --green: #27c990;
+  --red: #ff6a87;
+  --line: #e3eafa;
+  --line-2: #d6e0f5;
+  --muted: #6b7898;
+  --soft: #f1f5ff;
+  --bg: #f6f9ff;
+  --bg-2: #eef4ff;
+  --text: #08163d;
+}
+
+* { box-sizing: border-box; }
+
+html { min-height: 100%; background: var(--bg); }
+
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: Manrope, "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at 75% 8%, #eef4ff 0, #f8fbff 36%, #f6f9ff 100%);
+  font-size: 14px;
+  letter-spacing: -0.01em;
+}
+
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; }
+button { border: 0; cursor: pointer; }
+p, h1, h2, h3, h4 { margin: 0; }
+
+@layer components {
+  .glass {
+    background: rgba(255,255,255,.78);
+    border: 1px solid var(--line);
+    box-shadow: 0 12px 34px rgba(56,77,126,.09);
+    backdrop-filter: blur(22px);
+  }
+
+  .icon-box {
+    @apply inline-flex items-center justify-center w-[30px] h-[30px] rounded-[10px] font-black;
+    background: linear-gradient(145deg, #f6f8ff, #fff);
+    border: 1px solid var(--line);
+    color: var(--primary);
+    box-shadow: 0 10px 25px rgba(68,104,255,.09);
+  }
+  .icon-box.big {
+    @apply w-12 h-12 rounded-2xl text-[19px];
+  }
+  .icon-box.green { color: var(--green); background: #ecfff8; }
+  .icon-box.pink { color: var(--red); background: #fff0f4; }
+  .icon-box.purple { color: #8d65ff; background: #f5f0ff; }
+  .icon-box.cyan { color: #1baed5; background: #ecfbff; }
+
+  .usage-bar {
+    @apply h-[6px] rounded-full overflow-hidden;
+    background: #e8edfb;
+  }
+  .usage-bar i {
+    display: block;
+    height: 100%;
+    width: 42%;
+    background: linear-gradient(90deg, #4167ff, #8098ff);
+  }
+
+  .member-stack {
+    @apply flex;
+  }
+  .member-stack i {
+    @apply w-6 h-6 rounded-full border-2 border-white -ml-1.5;
+    background: linear-gradient(135deg, #222d58, #f3a071);
+  }
+  .member-stack i:first-child { margin-left: 0; }
+}

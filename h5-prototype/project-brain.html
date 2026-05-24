@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>项目大脑 · AI Project OS</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="index.html"><span class="brand-mark"></span><span>AI Project OS</span></a>
+      <nav class="side-nav">
+        <a class="nav-link" href="dashboard.html"><span>⌂</span>首页</a>
+        <a class="nav-link" href="project-detail.html"><span>▣</span>项目</a>
+        <a class="nav-link" href="dashboard.html"><span>▤</span>模板</a>
+        <a class="nav-link" href="dashboard.html"><span>◇</span>智能体</a>
+        <div class="nav-sep"></div>
+        <a class="nav-link" href="prompt-studio.html"><span>↗</span>Prompt 工作室</a>
+        <a class="nav-link" href="rules-builder.html"><span>▥</span>规则构建器</a>
+        <a class="nav-link active" href="project-brain.html"><span>⬡</span>项目大脑</a>
+        <a class="nav-link" href="dashboard.html"><span>⚙</span>设置</a>
+      </nav>
+      <div class="side-bottom">
+        <div class="upgrade-mini"><b>AI Project OS 专业版</b><p class="small muted" style="margin:8px 0 12px">解锁无限 Token、高级智能体等更多功能。</p><button class="btn primary block">↗ 升级计划</button></div>
+        <div class="user-card"><div class="avatar"></div><div><b>Alex Chen</b><span class="small muted">alex@example.com</span></div><span>⌄</span></div>
+      </div>
+    </aside>
+
+    <main class="main page-pad">
+      <div class="breadcrumb"><span>＋</span><span>项目</span><span>›</span><span>＋</span><b>AI SaaS Starter</b></div>
+      <div class="workspace-top" style="align-items:flex-end">
+        <section class="headline" style="margin-bottom:0"><h1>项目大脑</h1><p class="muted">你的项目知识和上下文中心。</p></section>
+        <button class="btn">＋ 添加知识</button>
+      </div>
+
+      <section class="brain-card">
+        <nav class="tabs"><a class="tab active">⌘ 知识图谱</a><a class="tab">▧ 文档</a><a class="tab">⌘ API 文档</a><a class="tab">↱ 时间线</a></nav>
+        <div class="brain-area">
+          <div class="graph">
+            <svg viewBox="0 0 760 620" preserveAspectRatio="none">
+              <g stroke="#9cafed" stroke-width="1.4" opacity=".8">
+                <line x1="380" y1="315" x2="390" y2="120"/><line x1="380" y1="315" x2="180" y2="200"/><line x1="380" y1="315" x2="92" y2="365"/><line x1="380" y1="315" x2="360" y2="500"/><line x1="380" y1="315" x2="565" y2="460"/><line x1="380" y1="315" x2="625" y2="335"/><line x1="380" y1="315" x2="585" y2="205"/>
+              </g>
+              <g fill="#edf2ff" opacity=".9"><circle cx="265" cy="180" r="6"/><circle cx="135" cy="285" r="4"/><circle cx="520" cy="260" r="6"/><circle cx="655" cy="430" r="5"/><circle cx="320" cy="390" r="6"/><circle cx="230" cy="420" r="4"/><circle cx="460" cy="170" r="5"/></g>
+            </svg>
+            <div class="node center"><span class="icon">⌘</span><b>AI SaaS Starter</b></div>
+            <div class="node n1"><span class="icon">▣</span><span>认证</span></div>
+            <div class="node n2"><span class="icon purple">▤</span><span>支付</span></div>
+            <div class="node n3"><span class="icon">▱</span><span>组件</span></div>
+            <div class="node n4"><span class="icon green">♙</span><span>用户管理</span></div>
+            <div class="node n5"><span class="icon purple">♙</span><span>用户管理</span></div>
+            <div class="node n6"><span class="icon cyan">✹</span><span>AI 引擎</span></div>
+            <div class="node n7"><span class="icon green">▤</span><span>数据库</span></div>
+            <div class="zoom"><button>−</button><button>＋</button><button>⛶</button><button>▣</button></div>
+          </div>
+
+          <aside class="detail">
+            <h3 class="panel-title">节点详情</h3>
+            <div class="detail-head"><span class="icon big">▣</span><div><h3>认证</h3><span class="chip">核心模块</span></div></div>
+            <p class="muted" style="line-height:1.7">处理平台上的用户认证、授权和会话管理。</p>
+            <div class="nav-sep" style="margin:22px 0"></div>
+            <h4>关联节点</h4>
+            <div class="related">
+              <div class="row"><span class="icon green">♙</span><div class="row-main"><b>用户管理</b></div><span class="tag">依赖于</span></div>
+              <div class="row"><span class="icon green">▤</span><div class="row-main"><b>数据库</b></div><span class="tag">使用</span></div>
+              <div class="row"><span class="icon cyan">✹</span><div class="row-main"><b>AI 引擎</b></div><span class="tag">集成于</span></div>
+              <div class="row"><span class="icon purple">▤</span><div class="row-main"><b>支付</b></div><span class="tag">可选</span></div>
+            </div>
+            <div class="nav-sep" style="margin:22px 0"></div>
+            <h4>关键知识</h4>
+            <div class="knowledge">
+              <div class="row"><span class="icon">▧</span><div class="row-main"><b>auth_flow.md</b></div><span class="row-time">2天前更新</span></div>
+              <div class="row"><span class="icon">▧</span><div class="row-main"><b>session_management.md</b></div><span class="row-time">5天前更新</span></div>
+              <div class="row"><span class="icon">▧</span><div class="row-main"><b>rbac_model.md</b></div><span class="row-time">1周前更新</span></div>
+            </div>
+            <button class="btn primary block" style="margin-top:22px">在上下文中打开 ↗</button>
+          </aside>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
