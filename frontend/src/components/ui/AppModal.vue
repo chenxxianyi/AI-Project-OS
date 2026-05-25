@@ -13,6 +13,33 @@ const router = useRouter()
 
 const step = ref(1)
 const creating = ref(false)
+const errors = reactive<Record<string, string>>({})
+
+const stepRequirements: Record<number, () => string | null> = {
+  1: () => {
+    if (!form.name.trim()) return 'name'
+    return null
+  },
+}
+
+function nextStep() {
+  const check = stepRequirements[step.value]
+  if (check) {
+    const field = check()
+    if (field) {
+      errors[field] = field === 'name' ? '项目名称不能为空' : '此字段为必填'
+      return
+    }
+  }
+  Object.keys(errors).forEach(k => delete errors[k])
+  step.value++
+}
+
+function closeModal() {
+  store.closeCreateModal()
+  step.value = 1
+  Object.keys(errors).forEach(k => delete errors[k])
+}
 
 const form = reactive({
   name: '',
@@ -57,7 +84,7 @@ async function createProject() {
   creating.value = true
   try {
     const p = await projectStore.createProject(form)
-    store.closeCreateModal()
+    closeModal()
     toast.show('项目创建成功')
     router.push(`/project/${p.id}`)
   } catch (e: unknown) {
@@ -73,11 +100,11 @@ async function createProject() {
     <Transition name="modal">
       <div
         v-if="store.createModalOpen"
-        class="modal-backdrop fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center"
-        @click.self="store.closeCreateModal()"
+        class="modal-backdrop glass-overlay fixed inset-0 z-50 flex items-center justify-center"
+        @click.self="closeModal()"
       >
-        <section class="project-modal w-[820px] max-h-[85vh] grid grid-cols-[200px_1fr] bg-white rounded-[22px] shadow-strong overflow-hidden">
-          <aside class="modal-side bg-[#f8faff] border-r border-line p-6 flex flex-col">
+        <section class="project-modal glass-panel w-[820px] max-h-[85vh] grid grid-cols-[200px_1fr] !rounded-[22px] !shadow-strong overflow-hidden">
+          <aside class="modal-side relative z-10 bg-[#f8faff] border-r border-line p-6 flex flex-col">
             <div class="modal-title flex items-center gap-3 mb-8">
               <span class="brand-mark w-[34px] h-[34px] rounded-[11px] bg-gradient-to-br from-[#eef3ff] to-white grid place-items-center text-primary shadow-[inset_0_0_0_1px_#dfe7ff]">✦</span>
               <span class="font-bold text-sm">创建新项目</span>
@@ -90,10 +117,10 @@ async function createProject() {
                 {{ ['基本信息', '技术栈', 'AI 与数据库', '风格与偏好', '预览'][s - 1] }}
               </div>
             </div>
-            <AppButton variant="ghost" block @click="store.closeCreateModal()">取消</AppButton>
+            <AppButton variant="ghost" block @click="closeModal()">取消</AppButton>
           </aside>
-          <main class="modal-main p-8 overflow-auto relative">
-            <button class="absolute top-4 right-4 w-8 h-8 rounded-full hover:bg-[#f1f5ff] grid place-items-center text-lg text-muted" @click="store.closeCreateModal()">×</button>
+          <main class="modal-main relative z-10 p-8 overflow-auto">
+            <button class="absolute top-4 right-4 w-8 h-8 rounded-full hover:bg-[#f1f5ff] grid place-items-center text-lg text-muted" @click="closeModal()">×</button>
 
             <!-- Step 1: Basic Info -->
             <template v-if="step === 1">
@@ -101,7 +128,14 @@ async function createProject() {
               <p class="text-muted text-sm mb-6">输入项目名称和类型</p>
               <div class="mb-5">
                 <label class="block text-sm font-semibold mb-1.5">项目名称</label>
-                <input v-model="form.name" class="w-full h-[42px] px-4 rounded-[10px] bg-white border border-line shadow-btn text-sm outline-none focus:border-primary transition-colors" placeholder="My Awesome Project" />
+                <input
+                  v-model="form.name"
+                  class="w-full h-[42px] px-4 rounded-[10px] bg-white border shadow-btn text-sm outline-none transition-colors"
+                  :class="errors.name ? 'border-primary/60 focus:border-primary' : 'border-line focus:border-primary'"
+                  placeholder="My Awesome Project"
+                  @input="delete errors.name"
+                />
+                <p v-if="errors.name" class="mt-1.5 text-xs text-primary flex items-center gap-1"><span>⚠</span>{{ errors.name }}</p>
               </div>
               <div class="mb-5">
                 <label class="block text-sm font-semibold mb-1.5">项目描述</label>
@@ -202,7 +236,7 @@ async function createProject() {
 
             <div class="flex gap-3 justify-end mt-8">
               <AppButton v-if="step > 1" @click="step--">上一步</AppButton>
-              <AppButton v-if="step < 5" variant="primary" @click="step++">下一步</AppButton>
+              <AppButton v-if="step < 5" variant="primary" @click="nextStep">下一步</AppButton>
               <AppButton v-if="step === 5" variant="primary" :disabled="creating" @click="createProject">
                 {{ creating ? '创建中...' : '✦ 创建项目' }}
               </AppButton>
@@ -215,11 +249,16 @@ async function createProject() {
 </template>
 
 <style scoped>
-.modal-enter-active,
-.modal-leave-active {
-  transition: opacity 0.2s ease;
+.modal-enter-active {
+  transition: opacity 0.2s cubic-bezier(0.25, 0.1, 0.25, 1.0), transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1.0);
 }
-.modal-enter-from,
+.modal-leave-active {
+  transition: opacity 0.15s ease-in;
+}
+.modal-enter-from {
+  opacity: 0;
+  transform: scale(0.92);
+}
 .modal-leave-to {
   opacity: 0;
 }

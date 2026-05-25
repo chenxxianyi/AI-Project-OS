@@ -23,6 +23,8 @@ type Config struct {
 	JWTExpirationHrs int
 	AIProvider       string
 	AIModel          string
+	AIAPIKey         string
+	AIBaseURL        string
 	LogLevel         string
 }
 
@@ -37,7 +39,7 @@ func Load() *Config {
 		DBHost:           getEnv("DB_HOST", "localhost"),
 		DBPort:           getEnv("DB_PORT", "3306"),
 		DBUser:           getEnv("DB_USER", "root"),
-		DBPassword:       getEnv("DB_PASSWORD", "aiproject_dev"),
+		DBPassword:       getEnv("DB_PASSWORD", "123456"),
 		DBName:           getEnv("DB_NAME", "ai_project_os"),
 		RedisHost:        getEnv("REDIS_HOST", "localhost"),
 		RedisPort:        getEnv("REDIS_PORT", "6379"),
@@ -47,6 +49,8 @@ func Load() *Config {
 		JWTExpirationHrs: jwtHrs,
 		AIProvider:       getEnv("AI_PROVIDER", "mock"),
 		AIModel:          getEnv("AI_MODEL", "mock-v1"),
+		AIAPIKey:         getEnv("AI_API_KEY", ""),
+		AIBaseURL:        getEnv("AI_BASE_URL", ""),
 		LogLevel:         getEnv("LOG_LEVEL", "info"),
 	}
 

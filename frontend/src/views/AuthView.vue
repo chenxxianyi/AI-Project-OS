@@ -50,7 +50,7 @@ async function submit() {
         <p class="text-muted text-sm mt-2">{{ isLogin ? '登录以继续使用' : '注册以开始使用' }}</p>
       </div>
 
-      <form class="p-6 rounded-[18px] bg-white/78 border border-line shadow-card" @submit.prevent="submit">
+      <form class="p-6 rounded-[18px] glass-panel" @submit.prevent="submit">
         <div v-if="error" class="mb-4 p-3 rounded-[10px] bg-red-50 border border-red-200 text-red-600 text-sm">{{ error }}</div>
 
         <div class="mb-4">

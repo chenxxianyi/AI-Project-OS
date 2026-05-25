@@ -16,6 +16,12 @@ const selectedPrompt = ref<Prompt | null>(null)
 const outputContent = ref('')
 const error = ref('')
 const projectId = ref('')
+const selectedModel = ref('deepseek-chat')
+
+const modelOptions = [
+  { value: 'deepseek-chat', label: 'DeepSeek V3 (deepseek-chat)' },
+  { value: 'deepseek-reasoner', label: 'DeepSeek R1 (deepseek-reasoner)' },
+]
 
 const templates = [
   { icon: '▱', name: '通用', desc: '通用目的提示词', active: true },
@@ -120,7 +126,7 @@ async function runPrompt() {
             </div>
           </div>
         </template>
-        <div class="editor-box p-5 font-mono text-sm leading-relaxed whitespace-pre-wrap text-[#53617f] min-h-[400px]">{{ promptContent }}</div>
+        <textarea v-model="promptContent" class="editor-box p-5 font-mono text-sm leading-relaxed text-[#53617f] min-h-[400px] w-full resize-none outline-none bg-transparent border-0" spellcheck="false" />
         <div class="toolbar-bottom flex items-center gap-4 px-5 py-3 border-t border-line text-sm text-muted">
           <span class="cursor-pointer hover:text-primary">＋ 变量</span>
           <span>Markdown⌄</span>
@@ -132,9 +138,8 @@ async function runPrompt() {
         <div class="p-4 flex flex-col gap-4">
           <div>
             <label class="block text-sm font-semibold mb-1.5">模型</label>
-            <select class="w-full h-9 px-3 rounded-[10px] border border-line bg-white text-sm">
-              <option>GPT-4o</option>
-              <option>Claude 3.5 Sonnet</option>
+            <select v-model="selectedModel" class="w-full h-9 px-3 rounded-[10px] border border-line bg-white text-sm">
+              <option v-for="m in modelOptions" :key="m.value" :value="m.value">{{ m.label }}</option>
             </select>
           </div>
           <div>

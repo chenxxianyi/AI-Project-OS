@@ -94,24 +94,24 @@ onMounted(async () => {
       <div>
         <section class="stats grid grid-cols-5 gap-4 mb-5">
           <div class="stat flex items-center gap-3 p-4 rounded-[14px] glass glass-hover">
-            <span class="icon-box">▣</span>
-            <div><strong class="block text-lg">{{ stats.project_count }}</strong><span class="text-xs text-muted">项目</span></div>
+            <span class="icon-box relative z-10">▣</span>
+            <div class="relative z-10"><strong class="block text-lg">{{ stats.project_count }}</strong><span class="text-xs text-muted">项目</span></div>
           </div>
           <div class="stat flex items-center gap-3 p-4 rounded-[14px] glass glass-hover">
-            <span class="icon-box green">›_</span>
-            <div><strong class="block text-lg">{{ stats.prompt_count }}</strong><span class="text-xs text-muted">提示词</span></div>
+            <span class="icon-box green relative z-10">›_</span>
+            <div class="relative z-10"><strong class="block text-lg">{{ stats.prompt_count }}</strong><span class="text-xs text-muted">提示词</span></div>
           </div>
           <div class="stat flex items-center gap-3 p-4 rounded-[14px] glass glass-hover">
-            <span class="icon-box">▤</span>
-            <div><strong class="block text-lg">{{ stats.generation_count }}</strong><span class="text-xs text-muted">AI 生成</span></div>
+            <span class="icon-box relative z-10">▤</span>
+            <div class="relative z-10"><strong class="block text-lg">{{ stats.generation_count }}</strong><span class="text-xs text-muted">AI 生成</span></div>
           </div>
           <div class="stat flex items-center gap-3 p-4 rounded-[14px] glass glass-hover">
-            <span class="icon-box purple">♙</span>
-            <div><strong class="block text-lg">1</strong><span class="text-xs text-muted">用户</span></div>
+            <span class="icon-box purple relative z-10">♙</span>
+            <div class="relative z-10"><strong class="block text-lg">1</strong><span class="text-xs text-muted">用户</span></div>
           </div>
           <div class="stat flex items-center gap-3 p-4 rounded-[14px] glass glass-hover">
-            <span class="icon-box pink">≋</span>
-            <div><strong class="block text-lg">0</strong><span class="text-xs text-muted">Token 用量</span></div>
+            <span class="icon-box pink relative z-10">≋</span>
+            <div class="relative z-10"><strong class="block text-lg">0</strong><span class="text-xs text-muted">Token 用量</span></div>
           </div>
         </section>
 
@@ -158,27 +158,27 @@ onMounted(async () => {
 
       <aside class="flex flex-col gap-5">
         <div class="p-5 rounded-[14px] glass glass-hover">
-          <h3 class="font-bold text-sm mb-4">工作台概览</h3>
-          <p class="text-xs text-muted mt-5">计划</p><b class="text-sm">专业版</b>
-          <p class="text-xs text-muted mt-[22px]">用量</p><b class="text-sm">4.2M / 10M Token <span class="text-muted float-right">42%</span></b>
-          <div class="usage-bar mt-2.5"><i></i></div>
-          <p class="text-xs text-muted mt-[26px]">团队成员</p>
-          <div class="member-stack mt-3 mb-[22px]"><i></i><i></i><i></i><i></i><AppChip label="+3" /></div>
+          <h3 class="relative z-10 font-bold text-sm mb-4">工作台概览</h3>
+          <p class="relative z-10 text-xs text-muted mt-5">计划</p><b class="relative z-10 text-sm">专业版</b>
+          <p class="relative z-10 text-xs text-muted mt-[22px]">用量</p><b class="relative z-10 text-sm">4.2M / 10M Token <span class="text-muted float-right">42%</span></b>
+          <div class="usage-bar mt-2.5 relative z-10"><i></i></div>
+          <p class="relative z-10 text-xs text-muted mt-[26px]">团队成员</p>
+          <div class="member-stack mt-3 mb-[22px] relative z-10"><i></i><i></i><i></i><i></i><AppChip label="+3" /></div>
           <AppButton block @click="toast.show('邀请链接已复制')">♙ 邀请</AppButton>
         </div>
 
         <div class="p-5 rounded-[14px] glass glass-hover">
-          <h3 class="font-bold text-sm mb-3">快捷操作</h3>
+          <h3 class="relative z-10 font-bold text-sm mb-3">快捷操作</h3>
           <div class="flex flex-col gap-0">
-            <div v-for="q in quickActions" :key="q" class="flex items-center py-2.5 border-b border-line last:border-0 text-sm cursor-pointer hover:bg-[#f8fbff] transition-colors">
+            <div v-for="q in quickActions" :key="q" class="relative z-10 flex items-center py-2.5 border-b border-line last:border-0 text-sm cursor-pointer hover:bg-[#f8fbff] transition-colors">
               {{ q }} <span class="ml-auto">›</span>
             </div>
           </div>
         </div>
 
         <div class="p-5 rounded-[14px] glass glass-hover !bg-gradient-to-br !from-[#eef3ff]/50 !to-white/30">
-          <h3 class="font-bold text-sm">AI Project OS 专业版</h3>
-          <p class="text-xs text-muted my-2.5">解锁无限 Token、高级智能体等更多功能。</p>
+          <h3 class="relative z-10 font-bold text-sm">AI Project OS 专业版</h3>
+          <p class="relative z-10 text-xs text-muted my-2.5">解锁无限 Token、高级智能体等更多功能。</p>
           <AppButton variant="primary" block>立即升级</AppButton>
         </div>
       </aside>

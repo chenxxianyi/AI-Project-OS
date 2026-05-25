@@ -62,6 +62,22 @@ func Register(app *fiber.App, cfg *config.Config, handlers *Handlers) {
 
 	// Dashboard
 	protected.Get("/dashboard/stats", handlers.Dashboard.Stats)
+
+	// Admin (JWT + admin role required)
+	admin := api.Group("/admin",
+		middleware.JWTAuth(cfg),
+		middleware.AdminRequired(),
+	)
+	admin.Get("/stats", handlers.Admin.Stats)
+	admin.Get("/health", handlers.Admin.Health)
+	admin.Get("/settings", handlers.Admin.GetSettings)
+	admin.Put("/settings", handlers.Admin.UpdateSettings)
+	admin.Get("/users", handlers.Admin.ListUsers)
+	admin.Put("/users/:id", handlers.Admin.UpdateUser)
+	admin.Delete("/users/:id", handlers.Admin.DeleteUser)
+	admin.Get("/projects", handlers.Admin.ListProjects)
+	admin.Delete("/projects/:id", handlers.Admin.DeleteProject)
+	admin.Get("/generations", handlers.Admin.ListGenerations)
 }
 
 // Handlers holds all handler instances
@@ -74,4 +90,5 @@ type Handlers struct {
 	Template     *handlers.TemplateHandler
 	AIGeneration *handlers.AIGenerationHandler
 	Dashboard    *handlers.DashboardHandler
+	Admin        *handlers.AdminHandler
 }

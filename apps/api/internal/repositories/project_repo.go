@@ -69,3 +69,40 @@ func (r *ProjectRepository) DeleteByIDAndUserID(id, userID string) error {
 	}
 	return nil
 }
+
+type AdminProjectRow struct {
+	models.Project
+	OwnerName string `json:"owner_name"`
+}
+
+func (r *ProjectRepository) ListAll(search, status string, limit, offset int) ([]AdminProjectRow, int64, error) {
+	var rows []AdminProjectRow
+	var total int64
+
+	q := r.db.Model(&models.Project{})
+	if search != "" {
+		q = q.Where("name LIKE ?", "%"+search+"%")
+	}
+	if status != "" {
+		q = q.Where("status = ?", status)
+	}
+	q.Count(&total)
+
+	qData := r.db.Table("projects").
+		Select("projects.*, users.username AS owner_name").
+		Joins("LEFT JOIN users ON users.id = projects.user_id AND users.deleted_at IS NULL").
+		Where("projects.deleted_at IS NULL")
+	if search != "" {
+		qData = qData.Where("projects.name LIKE ?", "%"+search+"%")
+	}
+	if status != "" {
+		qData = qData.Where("projects.status = ?", status)
+	}
+	err := qData.Order("projects.updated_at DESC").Limit(limit).Offset(offset).Scan(&rows).Error
+	return rows, total, err
+}
+
+func (r *ProjectRepository) CountAll() (int64, error) {
+	var count int64
+	return count, r.db.Model(&models.Project{}).Count(&count).Error
+}

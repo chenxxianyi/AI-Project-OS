@@ -4,7 +4,9 @@ import { useRoute } from 'vue-router'
 import AppShell from '@/components/layout/AppShell.vue'
 
 const route = useRoute()
-const isPublicLayout = computed(() => ['landing', 'login'].includes(String(route.name)))
+const isPublicLayout = computed(() =>
+  ['landing', 'login'].includes(String(route.name)) || route.meta.publicLayout || route.path.startsWith('/admin')
+)
 </script>
 
 <template>

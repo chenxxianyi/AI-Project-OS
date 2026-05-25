@@ -1,5 +1,10 @@
 package models
 
+import (
+	"github.com/google/uuid"
+	"gorm.io/gorm"
+)
+
 // uuid fields stored as char(36) strings
 
 type PromptType string
@@ -35,4 +40,11 @@ type PromptVersion struct {
 	Content    string `gorm:"type:text;not null" json:"content"`
 	ChangeNote string `gorm:"size:500" json:"change_note,omitempty"`
 	CreatedAt  int64  `json:"created_at"`
+}
+
+func (v *PromptVersion) BeforeCreate(tx *gorm.DB) error {
+	if v.ID == "" {
+		v.ID = uuid.New().String()
+	}
+	return nil
 }

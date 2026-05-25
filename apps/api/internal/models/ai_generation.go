@@ -1,5 +1,10 @@
 package models
 
+import (
+	"github.com/google/uuid"
+	"gorm.io/gorm"
+)
+
 // uuid fields stored as char(36) strings
 
 type GenerationType string
@@ -25,4 +30,11 @@ type AIGeneration struct {
 	Status         GenerationStatus `gorm:"size:20;not null" json:"status"`
 	ErrorMessage   string           `gorm:"type:text" json:"error_message,omitempty"`
 	CreatedAt      int64            `json:"created_at"`
+}
+
+func (g *AIGeneration) BeforeCreate(tx *gorm.DB) error {
+	if g.ID == "" {
+		g.ID = uuid.New().String()
+	}
+	return nil
 }

@@ -85,7 +85,7 @@ onMounted(async () => {
       <AppButton>＋ 添加知识</AppButton>
     </div>
 
-    <section class="brain-card rounded-[14px] bg-white/78 border border-line shadow-card overflow-hidden">
+    <section class="brain-card rounded-[14px] glass-panel overflow-hidden">
       <nav class="tabs flex gap-1 border-b border-line px-5">
         <a v-for="(tab, i) in brainTabs" :key="i" class="tab px-4 py-2.5 text-sm font-semibold cursor-pointer transition-colors border-b-2"
           :class="activeTab === i ? 'text-primary border-primary' : 'text-muted border-transparent hover:text-[#08163d]'"
@@ -117,12 +117,12 @@ onMounted(async () => {
           </svg>
 
           <!-- Center Node -->
-          <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-2 px-4 py-3 rounded-2xl bg-white border-2 border-primary shadow-primary cursor-pointer">
+          <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-2 px-4 py-3 rounded-2xl bg-white border-2 border-primary shadow-primary cursor-pointer relative z-10">
             <span class="icon-box">⌘</span><b class="text-sm font-bold">{{ project?.name || '项目' }}</b>
           </div>
 
           <!-- Satellite Nodes -->
-          <div v-for="n in nodes" :key="n.id" class="node absolute flex items-center gap-2 px-3 py-2 rounded-xl bg-white/90 border border-line shadow-card cursor-pointer hover:border-primary/40 transition-colors"
+          <div v-for="n in nodes" :key="n.id" class="node absolute z-10 flex items-center gap-2 px-3 py-2 rounded-xl bg-white/90 border border-line shadow-card cursor-pointer hover:border-primary/40 transition-colors"
             :class="n.cls">
             <span class="icon-box" :class="n.cls.split(' ')[1] || ''">{{ n.icon }}</span>
             <span class="text-xs font-semibold">{{ n.label }}</span>
@@ -130,7 +130,7 @@ onMounted(async () => {
 
           <!-- Zoom Controls -->
           <div class="zoom absolute bottom-4 left-4 flex gap-2">
-            <button v-for="z in ['−','＋','⛶','▣']" :key="z" class="w-8 h-8 rounded-lg bg-white border border-line shadow-btn grid place-items-center text-sm hover:bg-[#f8fbff] transition">{{ z }}</button>
+            <button v-for="z in ['−','＋','⛶','▣']" :key="z" class="w-8 h-8 rounded-lg glass-sm !rounded-lg grid place-items-center text-sm hover:bg-[#f8fbff] transition-all duration-ios-tab ease-ios-snappy active:scale-[0.97]">{{ z }}</button>
           </div>
         </div>
 

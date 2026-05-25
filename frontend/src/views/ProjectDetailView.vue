@@ -70,7 +70,7 @@ function timeAgo(dateStr: string) {
       </div>
     </div>
 
-    <section class="project-hero flex items-start gap-5 mb-6 p-6 rounded-[14px] bg-white/78 border border-line shadow-card">
+    <section class="project-hero flex items-start gap-5 mb-6 p-6 rounded-[14px] glass-panel">
       <div class="project-logo w-14 h-14 rounded-2xl bg-gradient-to-br from-[#eef3ff] to-white border border-line grid place-items-center text-2xl text-primary shadow-card">▱</div>
       <div>
         <h1 class="text-xl font-bold mb-2">{{ project?.name || '...' }}</h1>

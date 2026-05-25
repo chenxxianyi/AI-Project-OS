@@ -141,7 +141,7 @@ const previewSections = computed(() => {
       </AppCard>
     </section>
 
-    <div class="savebar glass fixed bottom-0 left-[216px] right-0 flex items-center justify-between px-8 py-4 z-40">
+    <div class="savebar glass-lg fixed bottom-0 left-[216px] right-0 flex items-center justify-between px-8 py-4 z-40">
       <span class="text-xs text-muted">⬡ 这些规则将包含在你的项目上下文中，并应用于所有 AI 交互。</span>
       <span class="text-xs text-muted">最后更新&nbsp;&nbsp;&nbsp; {{ project?.updated_at ? new Date(project.updated_at).toLocaleString('zh-CN') : '-' }}</span>
       <AppButton variant="primary" @click="toast.show('规则已保存')">保存规则</AppButton>

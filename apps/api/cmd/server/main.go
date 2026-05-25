@@ -30,10 +30,12 @@ func main() {
 	// Init AI provider
 	var provider ai.Provider
 	switch cfg.AIProvider {
-	case "mock":
+	case "mock", "":
 		provider = ai.NewMockProvider(cfg.AIModel)
 	default:
-		provider = ai.NewMockProvider(cfg.AIModel)
+		// All OpenAI-compatible providers (deepseek, openai, groq, moonshot,
+		// siliconflow, zhipu, together, ollama, mistral, perplexity, custom...)
+		provider = ai.NewOpenAICompatProvider(cfg.AIProvider, cfg.AIBaseURL, cfg.AIAPIKey, cfg.AIModel)
 	}
 
 	// Init services
@@ -44,6 +46,7 @@ func main() {
 	templateSvc := services.NewTemplateService()
 	aiGenSvc := services.NewAIGenerationService(provider, cfg)
 	dashboardSvc := services.NewDashboardService()
+	adminSvc := services.NewAdminService()
 
 	// Init handlers
 	h := &routes.Handlers{
@@ -55,6 +58,7 @@ func main() {
 		Template:     handlers.NewTemplateHandler(templateSvc),
 		AIGeneration: handlers.NewAIGenerationHandler(aiGenSvc),
 		Dashboard:    handlers.NewDashboardHandler(dashboardSvc),
+		Admin:        handlers.NewAdminHandler(adminSvc),
 	}
 
 	// Init Fiber app
